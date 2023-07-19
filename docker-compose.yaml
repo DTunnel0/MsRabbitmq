@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: 'rabbitmq'
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=DuTra01?
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/
+      - rabbitmq_log:/var/log/rabbitmq
+    networks:
+      - rabbitmq_net
+
+networks:
+  rabbitmq_net:
+    external: true
+
+volumes:
+  rabbitmq_data:
+  rabbitmq_log:
