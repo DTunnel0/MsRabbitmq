@@ -14,6 +14,11 @@ services:
       - rabbitmq_log:/var/log/rabbitmq
     networks:
       - rabbitmq_net
+    deploy:
+      resources:
+        limits:
+          - cpus: '0.30'
+            memory: 512M
 
 networks:
   rabbitmq_net:
