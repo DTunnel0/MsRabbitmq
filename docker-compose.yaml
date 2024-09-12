@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 services:
   rabbitmq:
     image: rabbitmq:3.12-management
@@ -13,7 +13,7 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq/
       - rabbitmq_log:/var/log/rabbitmq
     networks:
-      - rabbitmq_net
+      - network
     deploy:
       resources:
         limits:
@@ -21,8 +21,9 @@ services:
           memory: 512M
 
 networks:
-  rabbitmq_net:
-    external: true
+  network:
+    name: 'rabbitmq_net'
+    driver: 'bridge'
 
 volumes:
   rabbitmq_data:
