@@ -23,7 +23,7 @@ services:
 networks:
   network:
     name: 'rabbitmq_net'
-    driver: 'bridge'
+    driver: 'overlay'
 
 volumes:
   rabbitmq_data:
