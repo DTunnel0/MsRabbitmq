@@ -1,8 +1,6 @@
 services:
   rabbitmq:
     image: rabbitmq:3-management
-    container_name: 'rabbitmq'
-    restart: always
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=DuTra01?
@@ -10,11 +8,16 @@ services:
       - 5672:5672
       - 15672:15672
     volumes:
-      - rabbitmq_data:/var/lib/rabbitmq/
-      - rabbitmq_log:/var/log/rabbitmq/
+      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_log:/var/log/rabbitmq
     networks:
       - network
     deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: any
       resources:
         limits:
           cpus: '0.45'
