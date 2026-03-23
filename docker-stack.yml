@@ -1,15 +1,17 @@
 services:
-  rabbitmq:
+  app:
     image: rabbitmq:3-management
+    command: /etc/rabbitmq/bootstrap.sh
     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=DuTra01?
+      - RABBITMQ_DEFAULT_USER=dtunnel
+      - RABBITMQ_DEFAULT_PASS=DTunnel01
     ports:
       - 5672:5672
       - 15672:15672
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
       - rabbitmq_log:/var/log/rabbitmq
+      - ./bootstrap.sh:/etc/rabbitmq/bootstrap.sh:ro
       - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
       - ./definitions.json:/etc/rabbitmq/definitions.json:ro
     networks:

@@ -2,12 +2,20 @@
 
 ## Topologia
 
-O broker sobe com a topologia carregada automaticamente por:
+O broker sobe com bootstrap explícito:
 
+- [bootstrap.sh](/home/dutra/DTunnel/MsRabbitmq/bootstrap.sh)
 - [rabbitmq.conf](/home/dutra/DTunnel/MsRabbitmq/rabbitmq.conf)
 - [definitions.json](/home/dutra/DTunnel/MsRabbitmq/definitions.json)
 
-Isso cria:
+No boot ele:
+
+- inicia o broker
+- importa `definitions.json`
+- reaplica o usuário admin definido por `RABBITMQ_DEFAULT_USER` e `RABBITMQ_DEFAULT_PASS`
+- reaplica as permissões do admin em `/`
+
+Isso evita o caso de volume antigo com senha divergente e também cria:
 
 - exchanges `dtunnel.events`, `dtunnel.retry`, `dtunnel.dlq`, `dtunnel.commands`
 - filas principais, `.retry` e `.dlq` dos micros Python
