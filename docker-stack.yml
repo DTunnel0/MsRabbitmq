@@ -27,6 +27,7 @@ networks:
   network:
     name: 'rabbitmq_net'
     driver: 'overlay'
+    attachable: true
 
 volumes:
   rabbitmq_data:
