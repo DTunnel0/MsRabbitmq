@@ -12,6 +12,13 @@
   "policies": [],
   "queues": [
     {
+      "name": "ms_device.update_last_seen",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
       "name": "ms_payment.user.created",
       "vhost": "/",
       "durable": true,
@@ -827,11 +834,11 @@
       "arguments": {}
     },
     {
-      "source": "amq.direct",
+      "source": "dtunnel.commands",
       "vhost": "/",
-      "destination": "ms_device_update_last_seen",
+      "destination": "ms_device.update_last_seen",
       "destination_type": "queue",
-      "routing_key": "ms_device_update_last_seen",
+      "routing_key": "device.update_last_seen",
       "arguments": {}
     }
   ]
