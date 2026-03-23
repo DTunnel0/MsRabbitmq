@@ -9,8 +9,8 @@ services:
       - 5672:5672
       - 15672:15672
     volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-      - rabbitmq_log:/var/log/rabbitmq
+      - ms_rabbitmq_data:/var/lib/rabbitmq
+      - ms_rabbitmq_log:/var/log/rabbitmq
       - ./bootstrap.sh:/etc/rabbitmq/bootstrap.sh:ro
       - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
       - ./definitions.json:/etc/rabbitmq/definitions.json:ro
@@ -34,7 +34,7 @@ networks:
     attachable: true
 
 volumes:
-  rabbitmq_data:
-    name: 'rabbitmq_data'
-  rabbitmq_log:
-    name: 'rabbitmq_log'
+  ms_rabbitmq_data:
+    name: 'ms_rabbitmq_data'
+  ms_rabbitmq_log:
+    name: 'ms_rabbitmq_log'
