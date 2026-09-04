@@ -17,9 +17,10 @@ No boot ele:
 
 Isso evita o caso de volume antigo com senha divergente e também cria:
 
-- exchanges `dtunnel.events`, `dtunnel.retry`, `dtunnel.requeue`, `dtunnel.dlq`, `dtunnel.commands`
+- exchanges `dtunnel.events`, `dtunnel.retry`, `dtunnel.requeue`, `dtunnel.dlq`
 - filas principais, `.retry` e `.dlq` dos micros Python
-- binding do fluxo atual do `MsDevice` em `amq.direct` para `ms_device_update_last_seen`
+
+O `MsDevice` nao usa mais RabbitMQ para `update_last_seen`; esse fluxo foi movido para Redis.
 
 ## Deploy
 

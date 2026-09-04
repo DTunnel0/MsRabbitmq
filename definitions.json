@@ -12,13 +12,6 @@
   "policies": [],
   "queues": [
     {
-      "name": "ms_device.update_last_seen",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
       "name": "ms_payment.user.created",
       "vhost": "/",
       "durable": true,
@@ -307,103 +300,144 @@
       "arguments": {}
     },
     {
-      "name": "ms_user.payment.approved",
+      "name": "ms_commerce.payment.approved",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
-      "name": "ms_user.payment.approved.retry",
+      "name": "ms_commerce.payment.approved.retry",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {
         "x-dead-letter-exchange": "dtunnel.requeue",
-        "x-dead-letter-routing-key": "ms_user.payment.approved"
+        "x-dead-letter-routing-key": "ms_commerce.payment.approved"
       }
     },
     {
-      "name": "ms_user.payment.approved.dlq",
+      "name": "ms_commerce.payment.approved.dlq",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
-      "name": "ms_user.payment.cancelled",
+      "name": "ms_commerce.payment.cancelled",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
-      "name": "ms_user.payment.cancelled.retry",
+      "name": "ms_commerce.payment.cancelled.retry",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {
         "x-dead-letter-exchange": "dtunnel.requeue",
-        "x-dead-letter-routing-key": "ms_user.payment.cancelled"
+        "x-dead-letter-routing-key": "ms_commerce.payment.cancelled"
       }
     },
     {
-      "name": "ms_user.payment.cancelled.dlq",
+      "name": "ms_commerce.payment.cancelled.dlq",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
-      "name": "ms_plan.plan.purchase.approved",
+      "name": "ms_commerce.payment.refunded",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
-      "name": "ms_plan.plan.purchase.approved.retry",
+      "name": "ms_commerce.payment.refunded.retry",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {
         "x-dead-letter-exchange": "dtunnel.requeue",
-        "x-dead-letter-routing-key": "ms_plan.plan.purchase.approved"
+        "x-dead-letter-routing-key": "ms_commerce.payment.refunded"
       }
     },
     {
-      "name": "ms_plan.plan.purchase.approved.dlq",
+      "name": "ms_commerce.payment.refunded.dlq",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
-      "name": "ms_plan.plan.purchase.cancelled",
+      "name": "ms_user.entitlement.granted",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
-      "name": "ms_plan.plan.purchase.cancelled.retry",
+      "name": "ms_user.entitlement.granted.retry",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {
         "x-dead-letter-exchange": "dtunnel.requeue",
-        "x-dead-letter-routing-key": "ms_plan.plan.purchase.cancelled"
+        "x-dead-letter-routing-key": "ms_user.entitlement.granted"
       }
     },
     {
-      "name": "ms_plan.plan.purchase.cancelled.dlq",
+      "name": "ms_user.entitlement.granted.dlq",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {}
     },
     {
-      "name": "ms_device_update_last_seen",
+      "name": "ms_user.entitlement.revoked",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "ms_user.entitlement.revoked.retry",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "dtunnel.requeue",
+        "x-dead-letter-routing-key": "ms_user.entitlement.revoked"
+      }
+    },
+    {
+      "name": "ms_user.entitlement.revoked.dlq",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "ms_protocol_token.entitlement.events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "ms_protocol_token.entitlement.events.retry",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "dtunnel.requeue",
+        "x-dead-letter-routing-key": "ms_protocol_token.entitlement.events"
+      }
+    },
+    {
+      "name": "ms_protocol_token.entitlement.events.dlq",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
@@ -440,15 +474,6 @@
     },
     {
       "name": "dtunnel.requeue",
-      "vhost": "/",
-      "type": "topic",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "dtunnel.commands",
       "vhost": "/",
       "type": "topic",
       "durable": true,
@@ -747,110 +772,6 @@
       "arguments": {}
     },
     {
-      "source": "dtunnel.events",
-      "vhost": "/",
-      "destination": "ms_user.payment.approved",
-      "destination_type": "queue",
-      "routing_key": "payment.approved",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.retry",
-      "vhost": "/",
-      "destination": "ms_user.payment.approved.retry",
-      "destination_type": "queue",
-      "routing_key": "ms_user.payment.approved",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.dlq",
-      "vhost": "/",
-      "destination": "ms_user.payment.approved.dlq",
-      "destination_type": "queue",
-      "routing_key": "ms_user.payment.approved",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.events",
-      "vhost": "/",
-      "destination": "ms_user.payment.cancelled",
-      "destination_type": "queue",
-      "routing_key": "payment.cancelled",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.retry",
-      "vhost": "/",
-      "destination": "ms_user.payment.cancelled.retry",
-      "destination_type": "queue",
-      "routing_key": "ms_user.payment.cancelled",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.dlq",
-      "vhost": "/",
-      "destination": "ms_user.payment.cancelled.dlq",
-      "destination_type": "queue",
-      "routing_key": "ms_user.payment.cancelled",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.events",
-      "vhost": "/",
-      "destination": "ms_plan.plan.purchase.approved",
-      "destination_type": "queue",
-      "routing_key": "plan.purchase.approved",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.retry",
-      "vhost": "/",
-      "destination": "ms_plan.plan.purchase.approved.retry",
-      "destination_type": "queue",
-      "routing_key": "ms_plan.plan.purchase.approved",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.dlq",
-      "vhost": "/",
-      "destination": "ms_plan.plan.purchase.approved.dlq",
-      "destination_type": "queue",
-      "routing_key": "ms_plan.plan.purchase.approved",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.events",
-      "vhost": "/",
-      "destination": "ms_plan.plan.purchase.cancelled",
-      "destination_type": "queue",
-      "routing_key": "plan.purchase.cancelled",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.retry",
-      "vhost": "/",
-      "destination": "ms_plan.plan.purchase.cancelled.retry",
-      "destination_type": "queue",
-      "routing_key": "ms_plan.plan.purchase.cancelled",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.dlq",
-      "vhost": "/",
-      "destination": "ms_plan.plan.purchase.cancelled.dlq",
-      "destination_type": "queue",
-      "routing_key": "ms_plan.plan.purchase.cancelled",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.commands",
-      "vhost": "/",
-      "destination": "ms_device.update_last_seen",
-      "destination_type": "queue",
-      "routing_key": "device.update_last_seen",
-      "arguments": {}
-    },
-    {
       "source": "dtunnel.requeue",
       "vhost": "/",
       "destination": "ms_app_config.user.created",
@@ -925,22 +846,6 @@
     {
       "source": "dtunnel.requeue",
       "vhost": "/",
-      "destination": "ms_plan.plan.purchase.approved",
-      "destination_type": "queue",
-      "routing_key": "ms_plan.plan.purchase.approved",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.requeue",
-      "vhost": "/",
-      "destination": "ms_plan.plan.purchase.cancelled",
-      "destination_type": "queue",
-      "routing_key": "ms_plan.plan.purchase.cancelled",
-      "arguments": {}
-    },
-    {
-      "source": "dtunnel.requeue",
-      "vhost": "/",
       "destination": "ms_text.user.created",
       "destination_type": "queue",
       "routing_key": "ms_text.user.created",
@@ -963,19 +868,203 @@
       "arguments": {}
     },
     {
-      "source": "dtunnel.requeue",
+      "source": "dtunnel.events",
       "vhost": "/",
-      "destination": "ms_user.payment.approved",
+      "destination": "ms_commerce.payment.approved",
       "destination_type": "queue",
-      "routing_key": "ms_user.payment.approved",
+      "routing_key": "payment.approved",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.retry",
+      "vhost": "/",
+      "destination": "ms_commerce.payment.approved.retry",
+      "destination_type": "queue",
+      "routing_key": "ms_commerce.payment.approved",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.dlq",
+      "vhost": "/",
+      "destination": "ms_commerce.payment.approved.dlq",
+      "destination_type": "queue",
+      "routing_key": "ms_commerce.payment.approved",
       "arguments": {}
     },
     {
       "source": "dtunnel.requeue",
       "vhost": "/",
-      "destination": "ms_user.payment.cancelled",
+      "destination": "ms_commerce.payment.approved",
       "destination_type": "queue",
-      "routing_key": "ms_user.payment.cancelled",
+      "routing_key": "ms_commerce.payment.approved",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.events",
+      "vhost": "/",
+      "destination": "ms_commerce.payment.cancelled",
+      "destination_type": "queue",
+      "routing_key": "payment.cancelled",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.retry",
+      "vhost": "/",
+      "destination": "ms_commerce.payment.cancelled.retry",
+      "destination_type": "queue",
+      "routing_key": "ms_commerce.payment.cancelled",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.dlq",
+      "vhost": "/",
+      "destination": "ms_commerce.payment.cancelled.dlq",
+      "destination_type": "queue",
+      "routing_key": "ms_commerce.payment.cancelled",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.requeue",
+      "vhost": "/",
+      "destination": "ms_commerce.payment.cancelled",
+      "destination_type": "queue",
+      "routing_key": "ms_commerce.payment.cancelled",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.events",
+      "vhost": "/",
+      "destination": "ms_commerce.payment.refunded",
+      "destination_type": "queue",
+      "routing_key": "payment.refund.succeeded",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.retry",
+      "vhost": "/",
+      "destination": "ms_commerce.payment.refunded.retry",
+      "destination_type": "queue",
+      "routing_key": "ms_commerce.payment.refunded",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.dlq",
+      "vhost": "/",
+      "destination": "ms_commerce.payment.refunded.dlq",
+      "destination_type": "queue",
+      "routing_key": "ms_commerce.payment.refunded",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.requeue",
+      "vhost": "/",
+      "destination": "ms_commerce.payment.refunded",
+      "destination_type": "queue",
+      "routing_key": "ms_commerce.payment.refunded",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.events",
+      "vhost": "/",
+      "destination": "ms_user.entitlement.granted",
+      "destination_type": "queue",
+      "routing_key": "entitlement.granted",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.retry",
+      "vhost": "/",
+      "destination": "ms_user.entitlement.granted.retry",
+      "destination_type": "queue",
+      "routing_key": "ms_user.entitlement.granted",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.dlq",
+      "vhost": "/",
+      "destination": "ms_user.entitlement.granted.dlq",
+      "destination_type": "queue",
+      "routing_key": "ms_user.entitlement.granted",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.requeue",
+      "vhost": "/",
+      "destination": "ms_user.entitlement.granted",
+      "destination_type": "queue",
+      "routing_key": "ms_user.entitlement.granted",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.events",
+      "vhost": "/",
+      "destination": "ms_user.entitlement.revoked",
+      "destination_type": "queue",
+      "routing_key": "entitlement.revoked",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.retry",
+      "vhost": "/",
+      "destination": "ms_user.entitlement.revoked.retry",
+      "destination_type": "queue",
+      "routing_key": "ms_user.entitlement.revoked",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.dlq",
+      "vhost": "/",
+      "destination": "ms_user.entitlement.revoked.dlq",
+      "destination_type": "queue",
+      "routing_key": "ms_user.entitlement.revoked",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.requeue",
+      "vhost": "/",
+      "destination": "ms_user.entitlement.revoked",
+      "destination_type": "queue",
+      "routing_key": "ms_user.entitlement.revoked",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.events",
+      "vhost": "/",
+      "destination": "ms_protocol_token.entitlement.events",
+      "destination_type": "queue",
+      "routing_key": "entitlement.granted",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.events",
+      "vhost": "/",
+      "destination": "ms_protocol_token.entitlement.events",
+      "destination_type": "queue",
+      "routing_key": "entitlement.revoked",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.retry",
+      "vhost": "/",
+      "destination": "ms_protocol_token.entitlement.events.retry",
+      "destination_type": "queue",
+      "routing_key": "ms_protocol_token.entitlement.events",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.dlq",
+      "vhost": "/",
+      "destination": "ms_protocol_token.entitlement.events.dlq",
+      "destination_type": "queue",
+      "routing_key": "ms_protocol_token.entitlement.events",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.requeue",
+      "vhost": "/",
+      "destination": "ms_protocol_token.entitlement.events",
+      "destination_type": "queue",
+      "routing_key": "ms_protocol_token.entitlement.events",
       "arguments": {}
     }
   ]
