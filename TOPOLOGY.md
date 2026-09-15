@@ -35,6 +35,14 @@ Os eventos antigos `plan.purchase.*` e as filas `ms_user.payment.*` não existem
 mais. Serviços consumidores nunca concedem acesso diretamente a partir de um
 evento financeiro.
 
+## Projeção de servidores para Edge
+
+O `MsVPS` publica `vps.server.snapshot.v1` pelo outbox. O `MsConfig` mantém uma
+projeção mínima e idempotente pela fila `ms_config.vps.server.snapshot.v1`, com
+retry e DLQ próprios. O evento carrega apenas identidade, proprietário, nome,
+host público, estado e data; credenciais e fingerprints SSH não fazem parte do
+contrato.
+
 ## Ciclo de retry
 
 Cada fila principal usa o mesmo nome como routing key nas exchanges auxiliares:

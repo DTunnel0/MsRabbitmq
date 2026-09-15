@@ -442,6 +442,30 @@
       "durable": true,
       "auto_delete": false,
       "arguments": {}
+    },
+    {
+      "name": "ms_config.vps.server.snapshot.v1",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "ms_config.vps.server.snapshot.v1.retry",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "dtunnel.requeue",
+        "x-dead-letter-routing-key": "ms_config.vps.server.snapshot.v1"
+      }
+    },
+    {
+      "name": "ms_config.vps.server.snapshot.v1.dlq",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
     }
   ],
   "exchanges": [
@@ -1065,6 +1089,38 @@
       "destination": "ms_protocol_token.entitlement.events",
       "destination_type": "queue",
       "routing_key": "ms_protocol_token.entitlement.events",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.events",
+      "vhost": "/",
+      "destination": "ms_config.vps.server.snapshot.v1",
+      "destination_type": "queue",
+      "routing_key": "vps.server.snapshot.v1",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.retry",
+      "vhost": "/",
+      "destination": "ms_config.vps.server.snapshot.v1.retry",
+      "destination_type": "queue",
+      "routing_key": "ms_config.vps.server.snapshot.v1",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.dlq",
+      "vhost": "/",
+      "destination": "ms_config.vps.server.snapshot.v1.dlq",
+      "destination_type": "queue",
+      "routing_key": "ms_config.vps.server.snapshot.v1",
+      "arguments": {}
+    },
+    {
+      "source": "dtunnel.requeue",
+      "vhost": "/",
+      "destination": "ms_config.vps.server.snapshot.v1",
+      "destination_type": "queue",
+      "routing_key": "ms_config.vps.server.snapshot.v1",
       "arguments": {}
     }
   ]
