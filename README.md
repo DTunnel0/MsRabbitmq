@@ -22,6 +22,9 @@ Isso evita o caso de volume antigo com senha divergente e também cria:
 
 O `MsDevice` nao usa mais RabbitMQ para `update_last_seen`; esse fluxo foi movido para Redis.
 
+O broker registra warnings e erros. Conexões e canais abertos normalmente não
+geram logs informativos, evitando volume excessivo em consumidores frequentes.
+
 ## Deploy
 
 Docker Compose:
