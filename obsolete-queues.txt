@@ -1,0 +1,15 @@
+ms_plan.plan.purchase.approved
+ms_plan.plan.purchase.approved.retry
+ms_plan.plan.purchase.approved.dlq
+ms_plan.plan.purchase.cancelled
+ms_plan.plan.purchase.cancelled.retry
+ms_plan.plan.purchase.cancelled.dlq
+ms_user.payment.approved
+ms_user.payment.approved.retry
+ms_user.payment.approved.dlq
+ms_user.payment.cancelled
+ms_user.payment.cancelled.retry
+ms_user.payment.cancelled.dlq
+ms_user.security.audit.v1
+ms_user.security.audit.v1.retry
+ms_user.security.audit.v1.dlq

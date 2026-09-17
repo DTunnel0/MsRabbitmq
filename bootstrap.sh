@@ -29,6 +29,15 @@ done
 rabbitmqctl await_startup
 rabbitmqctl import_definitions /etc/rabbitmq/definitions.json
 
+while IFS= read -r queue; do
+  if [ -z "$queue" ]; then
+    continue
+  fi
+  if rabbitmqctl -q list_queues -p / name | grep -Fqx "$queue"; then
+    rabbitmqctl delete_queue -p / "$queue"
+  fi
+done </etc/rabbitmq/obsolete-queues.txt
+
 if ! rabbitmqctl change_password "$user" "$password" >/dev/null 2>&1; then
   rabbitmqctl add_user "$user" "$password"
 fi

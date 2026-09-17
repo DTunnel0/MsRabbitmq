@@ -18,9 +18,14 @@ No boot ele:
 Isso evita o caso de volume antigo com senha divergente e também cria:
 
 - exchanges `dtunnel.events`, `dtunnel.retry`, `dtunnel.requeue`, `dtunnel.dlq`
-- filas principais, `.retry` e `.dlq` dos micros Python
+- filas principais, retry e DLQ de todos os consumidores atuais
+- remoção explícita das filas obsoletas listadas em `obsolete-queues.txt`
 
 O `MsDevice` nao usa mais RabbitMQ para `update_last_seen`; esse fluxo foi movido para Redis.
+
+As filas dos serviços Python usam uma fila `.retry` com expiração por mensagem.
+O `MsVPS` usa filas de retry por atraso (`.retry.5000` até `.retry.60000`),
+exatamente como o adapter do serviço declara em runtime.
 
 O broker registra warnings e erros. Conexões e canais abertos normalmente não
 geram logs informativos, evitando volume excessivo em consumidores frequentes.
@@ -47,4 +52,10 @@ Depois de subir, confira:
 docker exec rabbitmq rabbitmqctl list_exchanges name type
 docker exec rabbitmq rabbitmqctl list_queues name
 docker exec rabbitmq rabbitmqctl list_bindings
+```
+
+Depois de alterar consumidores ou routing keys, atualize a fonte executável:
+
+```bash
+python3 update_topology.py
 ```

@@ -1,8 +1,9 @@
 # Topologia de eventos
 
 Todos os eventos de domínio usam o exchange tópico durável `dtunnel.events`.
-Cada consumidor possui fila principal, `.retry` e `.dlq`; a fila de retry retorna
-ao destino pela exchange `dtunnel.requeue`.
+Cada consumidor possui fila principal, retry e DLQ. A fila de retry retorna ao
+destino pela exchange `dtunnel.requeue`. Os consumidores do `MsVPS` usam cinco
+filas de atraso; os demais usam `.retry` com expiração definida na mensagem.
 
 ## Comércio v2
 
@@ -43,6 +44,23 @@ retry e DLQ próprios. O evento carrega apenas identidade, proprietário, nome,
 host público, estado e data; credenciais e fingerprints SSH não fazem parte do
 contrato.
 
+## Projeções de usuário
+
+`MsAppConfig`, `MsConfig` e `MsText` consomem criação, atualização, remoção,
+sincronização e alteração dos recursos herdados por membros. `MsPayment` consome
+criação, atualização, remoção e sincronização. Cada projeção possui fila isolada,
+retry e DLQ.
+
+## Operações VPS
+
+O `MsVPS` usa três filas principais:
+
+- `ms_vps.action.requested.v1` para execução das operações;
+- `ms_vps.action.completed.v1` para persistência dos resultados;
+- `ms_vps.state.changed.v1` para a projeção entregue ao SSE.
+
+Cada uma possui DLQ e retries de 5, 10, 20, 40 e 60 segundos.
+
 ## Ciclo de retry
 
 Cada fila principal usa o mesmo nome como routing key nas exchanges auxiliares:
@@ -53,5 +71,6 @@ Cada fila principal usa o mesmo nome como routing key nas exchanges auxiliares:
 4. ao esgotar tentativas, a mensagem segue para `.dlq` via `dtunnel.dlq`.
 
 O arquivo [definitions.json](./definitions.json) é a fonte executável da
-topologia. Execute `python3 update_commerce_topology.py` após ajustes no conjunto
-de filas do comércio.
+topologia. Execute `python3 update_topology.py` após qualquer ajuste em
+consumidores, filas ou routing keys. O bootstrap remove apenas as filas
+explicitamente listadas em [obsolete-queues.txt](./obsolete-queues.txt).

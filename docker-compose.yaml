@@ -23,6 +23,7 @@ services:
       - ./bootstrap.sh:/etc/rabbitmq/bootstrap.sh:ro
       - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
       - ./definitions.json:/etc/rabbitmq/definitions.json:ro
+      - ./obsolete-queues.txt:/etc/rabbitmq/obsolete-queues.txt:ro
     networks:
       - network
     deploy:
